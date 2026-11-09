@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using RefugiAnimals.Data;
 using RefugiAnimals.Models;
 
@@ -72,7 +73,7 @@ internal class Program
 
             Console.WriteLine("DADES INSERIDES");
 
-            List<Animal> llista = ctx.Animals.ToList();
+            List<Animal> llista = ctx.Animals.Include( a => a.Xip).ToList();
 
             foreach (Animal a in llista)
             {
