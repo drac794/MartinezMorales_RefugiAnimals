@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RefugiAnimals.Data;
 using RefugiAnimals.Models;
+using RefugiAnimals.Services;
 
 namespace RefugiAnimals;
 
@@ -79,6 +80,26 @@ internal class Program
             {
                 Console.WriteLine(a);
                 Console.WriteLine("Codi xip: " + a.Xip.Codi);
+            }
+            
+            AnimalService service = new AnimalService(ctx);
+
+            Console.WriteLine("GOSS DISPONIBLES:");
+
+            List<Animal> disponibles = service.GetDisponibles(Especie.GOS);
+
+            foreach (Animal a in disponibles)
+            {
+                Console.WriteLine(a);
+            }
+
+            Console.WriteLine("\nCERCA PER XIP:");
+
+            Animal? animal = service.CercaPerXip("123456789012345");
+
+            if (animal != null)
+            {
+                Console.WriteLine(animal);
             }
         }
     }
