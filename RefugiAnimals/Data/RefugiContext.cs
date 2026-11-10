@@ -8,6 +8,8 @@ public class RefugiContext : DbContext
     public DbSet<Animal> Animals { get; set; }
 
     public DbSet<Xip> Xips { get; set; }
+    
+    public DbSet<Adoptant> Adoptants { get; set; }
 
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder)
@@ -28,7 +30,19 @@ public class RefugiContext : DbContext
             .HasForeignKey<Animal>(a => a.XipID)
             .IsRequired();
 
+        modelBuilder.Entity<Animal>()
+            .Property(a => a.Especie)
+            .HasConversion<string>();
+        
         modelBuilder.Entity<Xip>()
             .HasIndex(x => x.Codi);
+        
+        modelBuilder.Entity<Animal>()
+            .HasOne(a => a.Adoptant)
+            .WithMany(ad => ad.Animals)
+            .HasForeignKey(a => a.AdoptantID)
+            .IsRequired(false);
     }
+    
+    
 }   

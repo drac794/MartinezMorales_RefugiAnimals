@@ -6,6 +6,8 @@ namespace RefugiAnimals.Models;
 public class Animal
 {
     public int AnimalID { get; set; }
+    
+    
 
     [Required]
     [StringLength(50)]
@@ -41,6 +43,11 @@ public class Animal
 
     public virtual Xip Xip { get; set; }
 
+
+    public int? AdoptantID { get; set; }
+
+    public virtual Adoptant? Adoptant { get; set; }
+
     public Animal()
     {
         DataEntrada = DateTime.Now;
@@ -70,6 +77,7 @@ public class Animal
                $"EsFemella: {EsFemella}, DataNaixement: {DataNaixement}, " +
                $"DataEntrada: {DataEntrada}, Pes: {Pes}, " +
                $"EstaAdoptat: {EstaAdoptat}, DataAdopcio: {DataAdopcio}, " +
-               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID}";
+               $"Adoptant: {Adoptant}, AdoptantID: {AdoptantID}, " +
+               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID} " ;
     }
 }

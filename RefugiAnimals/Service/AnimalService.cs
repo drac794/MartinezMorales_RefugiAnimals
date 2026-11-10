@@ -22,6 +22,21 @@ public class AnimalService
 
     public Animal? CercaPerXip(string codiXip)
     {
+        if (codiXip.Length != 15)
+        {
+            Console.WriteLine("El codi xip ha de tenir 15 digits.");
+            return null;
+        }
+
+        foreach (char c in codiXip)
+        {
+            if (c < '0' || c > '9')
+            {
+                Console.WriteLine("El codi xip nomes pot contenir digits.");
+                return null;
+            }
+        }
+
         Animal? animal = ctx.Animals
             .FirstOrDefault(a => a.Xip.Codi == codiXip);
 
@@ -31,5 +46,12 @@ public class AnimalService
         }
 
         return animal;
+    }
+
+    public List<Animal> CercaPerNom(string text)
+    {
+        return ctx.Animals
+            .Where(a => a.Nom.ToLower().Contains(text.ToLower()))
+            .ToList();
     }
 }

@@ -60,6 +60,27 @@ internal class Program
             kiwi.DataEntrada = new DateTime(2026, 9, 25);
             kiwi.Xip = new Xip("923456789012345");
 
+            var adoptant1 = new Adoptant
+            {
+                DNI = "12345678Z",
+                Nom = "Marta",
+                Cognoms = "Puig Soler",
+                TeJardi = true,
+                DataRegistre = DateTime.Now
+            };
+
+            var adoptant2 = new Adoptant
+            {
+                DNI = "87654321X",
+                Nom = "Pau",
+                Cognoms = "Ferrer Vidal",
+                TeJardi = false,
+                DataRegistre = DateTime.Now
+            };
+            
+            
+            ctx.Adoptants.Add(adoptant1);
+            ctx.Adoptants.Add(adoptant2);
             ctx.Animals.Add(toby);
             ctx.Animals.Add(luna);
             ctx.Animals.Add(rocky);
@@ -71,9 +92,11 @@ internal class Program
             ctx.Animals.Add(kiwi);
 
             ctx.SaveChanges();
-
+                
             Console.WriteLine("DADES INSERIDES");
-
+            
+            
+            
             List<Animal> llista = ctx.Animals.Include( a => a.Xip).ToList();
 
             foreach (Animal a in llista)
@@ -101,6 +124,26 @@ internal class Program
             {
                 Console.WriteLine(animal);
             }
-        }
+            List<Animal> resultat = service.CercaPerNom("lu");
+
+            AdoptantService adoptantService = new AdoptantService(ctx);
+            
+
+            bool adoptat = adoptantService.Adoptar("87654321X", "523456789012345");
+
+            if (adoptat)
+            {
+                Console.WriteLine("Animal adoptat");
+            }
+            else
+            {
+                Console.WriteLine("Animal no adoptat");
+            }
+
+
+            foreach (Animal a in resultat)
+            {
+                Console.WriteLine(a);
+            }}
     }
 }
