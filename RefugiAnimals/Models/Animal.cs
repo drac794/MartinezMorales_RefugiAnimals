@@ -47,13 +47,13 @@ public class Animal
     public int? AdoptantID { get; set; }
 
     public virtual Adoptant? Adoptant { get; set; }
-
+    public virtual ICollection<Voluntari> Voluntaris { get; set; }
     public Animal()
     {
         DataEntrada = DateTime.Now;
         EstaAdoptat = false;
         DataAdopcio = null;
-        QuotaAdopcio = 0;
+        QuotaAdopcio = 0   ;     Voluntaris = new HashSet<Voluntari>();
     }
 
     public Animal(string nom, Especie especie, bool esFemella,
@@ -69,7 +69,7 @@ public class Animal
         EstaAdoptat = false;
         DataAdopcio = null;
         QuotaAdopcio = 0;
-    }
+        Voluntaris = new HashSet<Voluntari>();   }
     
     public override string ToString()
     {
@@ -77,7 +77,7 @@ public class Animal
                $"EsFemella: {EsFemella}, DataNaixement: {DataNaixement}, " +
                $"DataEntrada: {DataEntrada}, Pes: {Pes}, " +
                $"EstaAdoptat: {EstaAdoptat}, DataAdopcio: {DataAdopcio}, " +
-               $"Adoptant: {Adoptant}, AdoptantID: {AdoptantID}, " +
-               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID} " ;
-    }
+               $"Adoptant: {(Adoptant == null ? "cap" : Adoptant.Nom)}, AdoptantID: {AdoptantID}, " +
+               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID} ";
+    } 
 }
