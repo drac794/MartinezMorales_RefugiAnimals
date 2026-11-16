@@ -135,5 +135,30 @@ public class AnimalService
         return true;
     }
     
+    public List<Animal> Descendents(string codiXip)
+    {
+        List<Animal> llista = new List<Animal>();
+
+        Animal? animal = ctx.Animals.FirstOrDefault(a => a.Xip.Codi == codiXip);
+
+        if (animal == null)
+        {
+            Console.WriteLine("L'animal no existeix.");
+            return llista;
+        }
+
+        AfegirDescendents(animal, llista);
+        return llista;
+    }
+
+    private void AfegirDescendents(Animal animal, List<Animal> llista)
+    {
+        foreach (Animal cria in animal.Cries.OrderBy(c => c.AnimalID))
+        {
+            llista.Add(cria);
+            AfegirDescendents(cria, llista); 
+        }
+    }
+    
 
 }

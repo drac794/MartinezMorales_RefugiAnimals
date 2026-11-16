@@ -12,6 +12,41 @@ internal class Program
         using var ctx = new RefugiContext();
         ctx.Database.EnsureDeleted();
         ctx.Database.EnsureCreated();
+        
+        List<Animal> animals = new List<Animal>()
+{
+    new Animal() { Nom = "Luna", Especie = Especie.GOS, EsFemella = true, Pes = 22.5,
+        DataNaixement = new DateTime(2020, 3, 14), DataEntrada = new DateTime(2025, 2, 10),
+        Xip = new Xip() { Codi = "724098100000001" } },
+    new Animal() { Nom = "Thor", Especie = Especie.GOS, EsFemella = false, Pes = 31,
+        DataNaixement = new DateTime(2019, 7, 2), DataEntrada = new DateTime(2024, 11, 5),
+        Xip = new Xip() { Codi = "724098100000002" } },
+    new Animal() { Nom = "Kira", Especie = Especie.GOS, EsFemella = true, Pes = 12.8,
+        DataNaixement = new DateTime(2023, 1, 20), DataEntrada = new DateTime(2025, 9, 1),
+        Xip = new Xip() { Codi = "724098100000003" } },
+    // Ja adoptat: per veure que GetDisponibles el deixa fora
+    new Animal() { Nom = "Bruc", Especie = Especie.GOS, EsFemella = false, Pes = 18,
+        DataNaixement = new DateTime(2021, 5, 9), DataEntrada = new DateTime(2024, 6, 15),
+        EstaAdoptat = true, DataAdopcio = new DateTime(2025, 10, 3),
+        Xip = new Xip() { Codi = "724098100000004" } },
+    new Animal() { Nom = "Mixa", Especie = Especie.GAT, EsFemella = true, Pes = 3.9,
+        DataNaixement = new DateTime(2022, 4, 11), DataEntrada = new DateTime(2025, 3, 22),
+        Xip = new Xip() { Codi = "724098100000005" } },
+    new Animal() { Nom = "Lluna", Especie = Especie.GAT, EsFemella = true, Pes = 4.2,
+        DataNaixement = new DateTime(2021, 12, 1), DataEntrada = new DateTime(2024, 12, 30),
+        Xip = new Xip() { Codi = "724098100000006" } },
+    new Animal() { Nom = "Pelut", Especie = Especie.GAT, EsFemella = false, Pes = 5.6,
+        DataNaixement = new DateTime(2018, 8, 17), DataEntrada = new DateTime(2025, 7, 7),
+        Xip = new Xip() { Codi = "724098100000007" } },
+    new Animal() { Nom = "Floc", Especie = Especie.CONILL, EsFemella = false, Pes = 1.8,
+        DataNaixement = new DateTime(2024, 2, 3), DataEntrada = new DateTime(2025, 5, 12),
+        Xip = new Xip() { Codi = "724098100000008" } },
+    new Animal() { Nom = "Piu", Especie = Especie.AU, EsFemella = true, Pes = 0.3,
+        DataNaixement = new DateTime(2023, 9, 25), DataEntrada = new DateTime(2025, 8, 19),
+        Xip = new Xip() { Codi = "724098100000009" } },
+};
+        ctx.Animals.AddRange(animals);
+        ctx.SaveChanges();        
         AnimalService animalService = new AnimalService(ctx);
 
         
@@ -92,5 +127,25 @@ internal class Program
     Console.WriteLine("\n--- Famílies després de registrar (la Coco té 3 cries, cap animal nou dels dolents) ---");
     MostrarFamilies();
 
+    
+    // ============ Nivell 3 · Descendents ============
+// Amb les dades inicials, Descendents de la Nala és [Coco, Rocky, Bimba]. Ara també hi surt el Toby
+    void MostrarDescendents(string codiXip)
+    {
+        List<Animal> descendents = animalService.Descendents(codiXip);
+        List<string> noms = new List<string>();
+        foreach (Animal an in descendents)
+        {
+            noms.Add(an.Nom);
+        }
+        Console.WriteLine($"Descendents de {codiXip}: [{string.Join(", ", noms)}]");
+    }
+
+    Console.WriteLine("\n--- Descendents ---");
+    MostrarDescendents("724098100000011");     // Nala: [Coco, Rocky, Bimba, Toby]
+    MostrarDescendents("724098100000012");     // Coco: [Rocky, Bimba, Toby]
+    MostrarDescendents("724098100000013");     // Rocky: [] (no té cries)
+    MostrarDescendents("724098100000999");     // no existeix: missatge i []
+    
     }
 }
