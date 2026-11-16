@@ -45,15 +45,28 @@ public class Animal
 
 
     public int? AdoptantID { get; set; }
+    
+    
+    
 
     public virtual Adoptant? Adoptant { get; set; }
     public virtual ICollection<Voluntari> Voluntaris { get; set; }
+    
+    public int? MareID { get; set; }
+    
+    public virtual Animal? Mare { get; set; }
+    public virtual ICollection<Animal> Cries { get; set; }
+
+    
     public Animal()
     {
         DataEntrada = DateTime.Now;
         EstaAdoptat = false;
         DataAdopcio = null;
-        QuotaAdopcio = 0   ;     Voluntaris = new HashSet<Voluntari>();
+        QuotaAdopcio = 0;     
+        Voluntaris = new HashSet<Voluntari>();
+        Cries = new HashSet<Animal>();
+
     }
 
     public Animal(string nom, Especie especie, bool esFemella,
@@ -69,7 +82,10 @@ public class Animal
         EstaAdoptat = false;
         DataAdopcio = null;
         QuotaAdopcio = 0;
-        Voluntaris = new HashSet<Voluntari>();   }
+        Voluntaris = new HashSet<Voluntari>();   
+        Cries = new HashSet<Animal>();
+
+    }
     
     public override string ToString()
     {

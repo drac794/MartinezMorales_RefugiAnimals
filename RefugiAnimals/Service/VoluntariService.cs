@@ -50,14 +50,13 @@ public class VoluntariService
             return false;
         }
 
-        voluntari.Animals.Add(animal);  
+        voluntari.Animals.Add(animal);
         ctx.SaveChanges();
 
         Console.WriteLine($"{voluntari.Nom} ara te cura de {animal.Nom}.");
         return true;
     }
 
-    // Nivell 2
     public bool DesassignarAnimal(string nomVoluntari, string codiXip)
     {
         var voluntari = ctx.Voluntaris.FirstOrDefault(v => v.Nom == nomVoluntari);
@@ -82,14 +81,13 @@ public class VoluntariService
             return false;
         }
 
-        voluntari.Animals.Remove(animal);   // esborra la fila de Cura: l'animal no s'esborra
+        voluntari.Animals.Remove(animal); // esborra la fila de Cura: l'animal no s'esborra
         ctx.SaveChanges();
 
         Console.WriteLine($"{voluntari.Nom} ja no te cura de {animal.Nom}.");
         return true;
     }
 
-    // Nivell 3
     public bool RegistrarPasseig(string nomVoluntari, string codiXip, int minuts)
     {
         var voluntari = ctx.Voluntaris.FirstOrDefault(v => v.Nom == nomVoluntari);
@@ -127,10 +125,13 @@ public class VoluntariService
         }
 
         int previs = voluntari.MinutsPasseig;
-        voluntari.MinutsPasseig += minuts;  
+        voluntari.MinutsPasseig += minuts;
         ctx.SaveChanges();
 
-        Console.WriteLine($"{voluntari.Nom} passeja {animal.Nom} {minuts} min. Minuts previs: {previs}, actuals: {voluntari.MinutsPasseig}.");
+        Console.WriteLine(
+            $"{voluntari.Nom} passeja {animal.Nom} {minuts} min. Minuts previs: {previs}, actuals: {voluntari.MinutsPasseig}.");
         return true;
     }
+    
+
 }

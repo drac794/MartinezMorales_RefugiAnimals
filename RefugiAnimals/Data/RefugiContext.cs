@@ -57,5 +57,13 @@ public class RefugiContext : DbContext
         modelBuilder.Entity<Voluntari>()
             .Property(v => v.MinutsPasseig)
             .HasDefaultValue(0);
+        
+        modelBuilder.Entity<Animal>()
+            .HasOne(a => a.Mare)
+            .WithMany(a => a.Cries)
+            .HasForeignKey("MareID")
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

@@ -12,6 +12,13 @@ public class AnimalService
         ctx = context;
     }
 
+    
+    public List<Animal> GetTots()
+    {
+        return ctx.Animals
+            .ToList();
+    }
+    
     public List<Animal> GetDisponibles(Especie especie)
     {
         return ctx.Animals
@@ -54,4 +61,79 @@ public class AnimalService
             .Where(a => a.Nom.ToLower().Contains(text.ToLower()))
             .ToList();
     }
+      public bool CanviarMare(string codiXipCria, string? codiXipMare)
+    {
+        Animal? cria = ctx.Animals.FirstOrDefault(a => a.Xip.Codi == codiXipCria);
+
+        if (cria == null)
+        {
+            Console.WriteLine("La cria no existeix.");
+            return false;
+        }
+        
+
+        Animal? mare = ctx.Animals.FirstOrDefault(a => a.Xip.Codi == codiXipMare);
+
+        if (mare == null)
+        {
+            Console.WriteLine("La mare no existeix.");
+            return false;
+        }
+
+        if (!mare.EsFemella)
+        {
+            Console.WriteLine("es mascle no pot ser la mare");
+            return false;
+        }
+
+        if (cria.MareID == mare.AnimalID)
+        {
+            Console.WriteLine("ja es la mare de");
+            return false;
+        }
+
+        cria.Mare = mare;
+        ctx.SaveChanges();
+
+        Console.WriteLine($"{mare.Nom} es ara la mare de {cria.Nom}.");
+        return true;
+    }
+
+    public bool RegistrarCria(string codiXipMare, Animal cria)
+    {
+        Animal? mare = ctx.Animals.FirstOrDefault(a => a.Xip.Codi == codiXipMare);
+
+        if (mare == null)
+        {
+            Console.WriteLine("La mare no existeix.");
+            return false;
+        }
+
+        if (!mare.EsFemella)
+        {
+            Console.WriteLine("es mascle no pot ser la mare.");
+            return false;
+        }
+
+        if (cria.Especie != mare.Especie)
+        {
+            Console.WriteLine("La cria ha de ser de la mateixa especie que la mare.");
+            return false;
+        }
+
+        if (cria.DataNaixement <= mare.DataNaixement)
+        {
+            Console.WriteLine("La cria ha de haver nascut despres de la mare.");
+            return false;
+        }
+        
+
+        mare.Cries.Add(cria);
+        ctx.SaveChanges();
+
+        Console.WriteLine($"{cria.Nom} es ara cria de {mare.Nom}.");
+        return true;
+    }
+    
+
 }
