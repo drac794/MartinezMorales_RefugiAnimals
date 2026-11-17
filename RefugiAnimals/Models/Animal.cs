@@ -56,6 +56,10 @@ public class Animal
     
     public virtual Animal? Mare { get; set; }
     public virtual ICollection<Animal> Cries { get; set; }
+    
+    [Precision(8, 2)] 
+    public decimal DespesaAcumulada { get; set; }
+    
 
     
     public Animal()
@@ -66,7 +70,7 @@ public class Animal
         QuotaAdopcio = 0;     
         Voluntaris = new HashSet<Voluntari>();
         Cries = new HashSet<Animal>();
-
+        DespesaAcumulada = 0;
     }
 
     public Animal(string nom, Especie especie, bool esFemella,
@@ -84,6 +88,7 @@ public class Animal
         QuotaAdopcio = 0;
         Voluntaris = new HashSet<Voluntari>();   
         Cries = new HashSet<Animal>();
+        DespesaAcumulada = 0;
 
     }
     
