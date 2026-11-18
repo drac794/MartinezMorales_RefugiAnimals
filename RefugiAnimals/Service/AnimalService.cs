@@ -277,6 +277,33 @@ public class AnimalService
         
     }
 
+   
+
+    public void EstadistiquesPerEspecie()
+    {
+        var estadistiques = ctx.Animals
+            .GroupBy(a => a.Especie)
+            .Select(g => new
+            {
+                Especie = g.Key,
+                Total = g.Count(),
+                Adoptats = g.Count(a => a.EstaAdoptat),
+                Disponibles = g.Count(a => !a.EstaAdoptat),
+                PesMitja = g.Average(a => a.Pes)
+            })
+            .OrderByDescending(x => x.Total)
+            .ToList();
+
+        foreach (var esta in estadistiques)
+        {
+            Console.WriteLine($"Especie: {esta.Especie} Total animals: {esta.Total} " + 
+                              $"Adoptats: {esta.Adoptats} " + $" Disponibles: {esta.Disponibles} " +
+                              $"Pes mitjà: {esta.PesMitja} kg");
+
+        }
+    }
+
+
     
 
 }

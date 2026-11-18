@@ -60,6 +60,7 @@ public class Animal
     [Precision(8, 2)] 
     public decimal DespesaAcumulada { get; set; }
     
+    public virtual ICollection<Visita> Visites { get; set; }
 
     
     public Animal()
@@ -71,6 +72,7 @@ public class Animal
         Voluntaris = new HashSet<Voluntari>();
         Cries = new HashSet<Animal>();
         DespesaAcumulada = 0;
+        Visites =  new HashSet<Visita>();
     }
 
     public Animal(string nom, Especie especie, bool esFemella,
@@ -89,6 +91,7 @@ public class Animal
         Voluntaris = new HashSet<Voluntari>();   
         Cries = new HashSet<Animal>();
         DespesaAcumulada = 0;
+        Visites =  new HashSet<Visita>();
 
     }
     
@@ -99,6 +102,7 @@ public class Animal
                $"DataEntrada: {DataEntrada}, Pes: {Pes}, " +
                $"EstaAdoptat: {EstaAdoptat}, DataAdopcio: {DataAdopcio}, " +
                $"Adoptant: {(Adoptant == null ? "cap" : Adoptant.Nom)}, AdoptantID: {AdoptantID}, " +
-               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID} ";
+               $"QuotaAdopcio: {QuotaAdopcio}, XipID: {XipID} "+
+               $"Visites: {Visites}" ;
     } 
 }

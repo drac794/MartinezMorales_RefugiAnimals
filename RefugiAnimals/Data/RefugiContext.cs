@@ -12,6 +12,10 @@ public class RefugiContext : DbContext
     public DbSet<Adoptant> Adoptants { get; set; }
 
     public DbSet<Voluntari> Voluntaris { get; set; }
+    
+    
+    public DbSet<Visita> Visitants { get; set; }
+
 
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder)
@@ -64,6 +68,13 @@ public class RefugiContext : DbContext
             .HasForeignKey("MareID")
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<Visita>()
+            .HasOne(v => v.Animal)
+            .WithMany(a => a.Visites)
+            .HasForeignKey("AnimalID")
+            .IsRequired(true)
+            .OnDelete(DeleteBehavior.Cascade);
 
     }
 }

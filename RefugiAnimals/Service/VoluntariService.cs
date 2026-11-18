@@ -132,6 +132,29 @@ public class VoluntariService
             $"{voluntari.Nom} passeja {animal.Nom} {minuts} min. Minuts previs: {previs}, actuals: {voluntari.MinutsPasseig}.");
         return true;
     }
- 
+
+    public void LlistatVoluntaris(int minAnimals)
+    {
+        var voluntaris = ctx.Voluntaris
+            .Where(v => v.Animals.Count() >= minAnimals)
+            .Select(v => new
+            {
+                Voluntari = v.Nom,
+                Total = v.Animals.Count(),
+                Torn = v.Torn,
+                Minuts = v.MinutsPasseig
+            })
+            .OrderByDescending(x => x.Total)
+            .ToList();
+
+        int numero = 1;
+
+        foreach (var esta in voluntaris)
+        {
+            Console.WriteLine($"{numero}. {esta.Voluntari} ({esta.Torn}) - " +
+                              $"animals: {esta.Total} - {esta.Minuts} min");
+            numero++;
+        }
+    }
 
 }

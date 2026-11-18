@@ -48,6 +48,7 @@ internal class Program
         ctx.Animals.AddRange(animals);
         ctx.SaveChanges();        
         AnimalService animalService = new AnimalService(ctx);
+        VoluntariService voluntariService = new VoluntariService(ctx);
 
         
         
@@ -151,5 +152,23 @@ internal class Program
     animalService.CalcularDespesaMes();
     animalService.CalcularDespesaMes();
 
+
+    VisitaService visitaService = new VisitaService(ctx);
+
+    visitaService.GenerarVisites(30);
+
+    animalService.EstadistiquesPerEspecie();
+    
+    voluntariService.LlistatVoluntaris(2);
+    
+
+
+                visitaService.EstadistiquesPerMotiu();
+
+                voluntariService.LlistatVoluntaris(1);
+
+            
+        
     }
+    
 }
