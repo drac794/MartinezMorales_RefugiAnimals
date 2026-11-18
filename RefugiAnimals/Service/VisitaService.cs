@@ -37,16 +37,13 @@ public class VisitaService
 
             DateTime dataMaxima = DateTime.Today;
 
-            if (animal.DataAdopcio != null)
-            {
+            if (animal.DataAdopcio != null){
                 dataMaxima = animal.DataAdopcio.Value;
             }
 
             int dies = (dataMaxima.Date - animal.DataEntrada.Date).Days;
 
-            DateTime data = animal.DataEntrada.Date.AddDays(
-                rnd.Next(dies + 1)
-            );
+            DateTime data = animal.DataEntrada.Date.AddDays(rnd.Next(dies + 1));
 
             int cost = motiu switch
             {
